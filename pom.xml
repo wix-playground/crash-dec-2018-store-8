@@ -20,8 +20,15 @@
 
     <developers>
         <developer>
-            <name>Oksana Boiarko Dean Shub</name>
+            <name>Dean Shub</name>
             <email>deansh@wix.com</email>
+            <roles>
+                <role>owner</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Oksana Boiarko</name>
+            <email>oksanab@wix.com</email>
             <roles>
                 <role>owner</role>
             </roles>
