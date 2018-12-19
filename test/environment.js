@@ -7,8 +7,7 @@ const petriTestkit = require('@wix/wix-petri-testkit');
 
 // take erb configurations from source folder, replace values/functions,
 // remove the ".erb" extension and emit files inside the target folder
-// module.exports.emitConfigs = ({ targetFolder, rpcServer }) => {
-module.exports.emitConfigs = ({ targetFolder }) => {
+module.exports.emitConfigs = ({ targetFolder, rpcServer }) => {
   const emitter = configEmitter({
     sourceFolders: ['./templates'],
     targetFolder,
@@ -17,11 +16,11 @@ module.exports.emitConfigs = ({ targetFolder }) => {
   return (
     emitter
       .val('scripts_domain', 'static.parastorage.com')
-      // .fn(
-      //   'rpc_service_url',
-      //   'com.wixpress.npm.node-workshop-scala-app',
-      //   rpcServer.getUrl(),
-      // )
+      .fn(
+        'rpc_service_url',
+        'com.wixpress.infra.crash-course-products-scala-app',
+        rpcServer.getUrl(),
+      )
       .emit()
   );
 };

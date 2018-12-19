@@ -7,6 +7,20 @@ const {
 
 const port = parseInt(process.env.PORT);
 const appConfDir = './target/dev/configs';
+const products = [
+  {
+    name: 'Name',
+    description: 'Description',
+    price: '22',
+    img: 'sss',
+  },
+  {
+    name:"Product 1",
+    description:"some description",
+    price:"GVExxnpJBs",
+    img:"diHZhfxwDg"
+  }
+];
 
 (async () => {
   const petriPort = port + 3;
@@ -19,9 +33,9 @@ const appConfDir = './target/dev/configs';
   const rpcServer = bootstrapRpcServer({ port: port + 2 });
   const petriServer = bootstrapPetriServer({ port: petriPort });
 
-  // rpcServer
-  //  .when("CommentsService", "fetch")
-  //  .respond([{ text: "Hello World", author: "Uncle Bob" }]);
+  rpcServer
+   .when("ProductsService", "fetch")
+   .respond(products);
 
   petriServer.onConductAllInScope(() => ({
     'specs.crash-course.IsAddButtonEnabled': 'true',

@@ -1,5 +1,6 @@
 import wixExpressCsrf from '@wix/wix-express-csrf';
 import wixExpressRequireHttps from '@wix/wix-express-require-https';
+import bodyParser from 'body-parser';
 
 // This function is the main entry for our server. It accepts an express Router
 // (see http://expressjs.com) and attaches routes and middlewares to it.
@@ -21,12 +22,24 @@ module.exports = (app, context) => {
   // Attach a rendering middleware, it adds the `renderView` method to every request.
   // See https://github.com/wix-private/fed-infra/tree/master/wix-bootstrap-renderer.
   app.use(context.renderer.middleware());
+  app.use(bodyParser.json());
 
   if (process.env.NODE_ENV !== 'production') {
     app.get('/', (req, res) => {
       res.redirect('/crash-store-8');
     });
   }
+
+  app.get('/api/products', async (req, res) => {
+    const rpcResponse = await context.rpc
+      .clientFactory(config.services.productsUrl, 'ProductsService')
+      .client(req.aspects)
+      .invoke('fetch', '2963d463-3ce5-4d22-ab81-7b1b4d09c8db');
+    res.json(rpcResponse);
+  });
+  // TODO: add
+  // app.post('/api/products')
+  // app.get('api/products/:name')
 
   // Define a route to render our initial HTML.
   app.get('*', async (req, res) => {

@@ -46,4 +46,7 @@ module.exports = {
       await globalObject.petriServer.stop();
     },
   },
+  // puppeteer: {
+  //   headless: false
+  // }
 };
