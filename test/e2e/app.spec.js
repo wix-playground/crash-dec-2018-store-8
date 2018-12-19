@@ -1,4 +1,9 @@
 // import axios from 'axios';
+import {
+  buttonTestkitFactory,
+  // formFieldTestkitFactory,
+  inputTestkitFactory,
+} from 'wix-style-react/dist/testkit/puppeteer';
 
 const appDriver = page => ({
   navigateHomepage: () => page.goto(app.getUrl('/crash-store-8/')),
@@ -7,8 +12,45 @@ const appDriver = page => ({
   getProductsListTitle: () =>
     page.$eval('[data-hook="products-list"] h1', el => el.innerText),
   getProductItem: () => page.$('[data-hook="product-item"]'),
-  getProductItemTitle: () => page.$('[data-hook="product-item"] h3'),
-  getProductItemDescr: () => page.$('[data-hook="product-item"] p'),
+  getProductItemTitle: () =>
+    page.$eval('[data-hook="product-item"] h3', el => el.innerText),
+  getProductItemDescr: () =>
+    page.$('[data-hook="product-item"] p', el => el.innerText),
+  fillProductDetails: async ({ name, description, price, image }) => {
+    if (name) {
+      const testkit = await inputTestkitFactory({ dataHook: 'name', page });
+      await testkit.enterText(name);
+    }
+    if (description) {
+      const testkit = await inputTestkitFactory({
+        dataHook: 'description',
+        page,
+      });
+      await testkit.enterText(description);
+    }
+    if (price) {
+      const testkit = await inputTestkitFactory({
+        dataHook: 'price',
+        page,
+      });
+      await testkit.enterText(price);
+    }
+    if (image) {
+      const testkit = await inputTestkitFactory({
+        dataHook: 'image',
+        page,
+      });
+      await testkit.enterText(image);
+    }
+  },
+  cancelAddProduct: async () => {
+    const testkit = await buttonTestkitFactory({ dataHook: 'cancel', page });
+    testkit.click();
+  },
+  addProduct: async () => {
+    const testkit = await buttonTestkitFactory({ dataHook: 'add', page });
+    testkit.click();
+  },
 });
 
 let driver;
@@ -40,11 +82,6 @@ describe('React application', () => {
     expect(await page.$eval('h2', e => e.innerText)).toEqual('Hello World!');
   });
 
-  it('should display add product title', async () => {
-    await driver.navigateAddProductPage();
-    expect(await page.$eval('h2', e => e.innerText)).toEqual('Add product');
-  });
-
   it('should contain products list:', async () => {
     await driver.navigateHomepage();
 
@@ -71,6 +108,30 @@ describe('React application', () => {
     it('should contain descr', async () => {
       await driver.navigateHomepage();
       expect(await driver.getProductItemDescr()).toBeTruthy();
+    });
+  });
+
+  describe('Add Product Page', () => {
+    it('should add product but cancel', async () => {
+      await driver.navigateAddProductPage();
+      expect(await page.$eval('h2', e => e.innerText)).toEqual('Add product');
+      await driver.fillProductDetails({ name: 'bla' });
+      await driver.cancelAddProduct();
+      await new Promise(resolve => setTimeout(resolve, 300));
+      expect(await page.$eval('h2', e => e.innerText)).toEqual('Hello World!');
+    });
+
+    it('should add product', async () => {
+      const productDetails = {
+        name: 'Product 1',
+        description: 'this is a bla product',
+      };
+      await driver.navigateAddProductPage();
+      await driver.fillProductDetails(productDetails);
+      await driver.addProduct();
+      await new Promise(resolve => setTimeout(resolve, 300));
+      console.log(await driver.getProductItemTitle());
+      expect(await driver.getProductItemTitle()).toEqual(productDetails.name);
     });
   });
 });
