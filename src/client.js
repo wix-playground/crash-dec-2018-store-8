@@ -13,8 +13,7 @@ const locale = window.__LOCALE__;
 wixAxiosConfig(axios, { baseURL });
 
 const HomePage = () => <App />;
-const ProductPage = props =>
-  console.log(props.name) && <App productName={props.name} />;
+const ProductPage = props => <App productName={props.name} />;
 const AddProductPage = () => <App />;
 
 ReactDOM.render(

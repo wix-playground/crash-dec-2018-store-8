@@ -2,6 +2,7 @@
 
 const appDriver = page => ({
   navigateHomepage: () => page.goto(app.getUrl('/')),
+  navigateAddProductPage: () => page.goto(app.getUrl('/new')),
 });
 
 let driver;
@@ -30,6 +31,11 @@ describe('React application', () => {
 
     await driver.navigateHomepage();
 
+    expect(await page.$eval('h2', e => e.innerText)).toEqual('Hello World!');
+  });
+
+  it('should display add product title', async () => {
+    await driver.navigateAddProductPage();
     expect(await page.$eval('h2', e => e.innerText)).toEqual('Hello World!');
   });
 });
