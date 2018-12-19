@@ -40,11 +40,11 @@ module.exports = (app, context) => {
   });
 
   app.post('/api/products', async (req, res) => {
-    const { name, description, price, image } = req.body;
+    const { name, description, price, img } = req.body;
     const rpcResponse = await context.rpc
       .clientFactory(config.services.productsUrl, 'ProductsService')
       .client(req.aspects)
-      .invoke('add', siteId, { name, description, price, image });
+      .invoke('add', siteId, { name, description, price, img });
     res.json(rpcResponse);
   });
   // TODO: add

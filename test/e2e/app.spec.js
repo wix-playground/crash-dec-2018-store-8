@@ -35,7 +35,7 @@ const appDriver = page => ({
         description: el.children[1].innerText,
       })),
     ),
-  fillProductDetails: async ({ name, description, price, image }) => {
+  fillProductDetails: async ({ name, description, price, img }) => {
     if (name) {
       const testkit = await inputTestkitFactory({ dataHook: 'name', page });
       await testkit.enterText(name);
@@ -54,12 +54,12 @@ const appDriver = page => ({
       });
       await testkit.enterText(price);
     }
-    if (image) {
+    if (img) {
       const testkit = await inputTestkitFactory({
-        dataHook: 'image',
+        dataHook: 'img',
         page,
       });
-      await testkit.enterText(image);
+      await testkit.enterText(img);
     }
   },
   cancelAddProduct: async () => {

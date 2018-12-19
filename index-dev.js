@@ -15,11 +15,11 @@ const products = [
     img: 'sss',
   },
   {
-    name:"Product 1",
-    description:"some description",
-    price:"GVExxnpJBs",
-    img:"diHZhfxwDg"
-  }
+    name: 'Product 1',
+    description: 'some description',
+    price: 'GVExxnpJBs',
+    img: 'diHZhfxwDg',
+  },
 ];
 
 (async () => {
@@ -33,9 +33,8 @@ const products = [
   const rpcServer = bootstrapRpcServer({ port: port + 2 });
   const petriServer = bootstrapPetriServer({ port: petriPort });
 
-  rpcServer
-   .when("ProductsService", "fetch")
-   .respond(products);
+  rpcServer.when('ProductsService', 'fetch').respond(products);
+  rpcServer.when('ProductsService', 'add').respond(null);
 
   petriServer.onConductAllInScope(() => ({
     'specs.crash-course.IsAddButtonEnabled': 'true',

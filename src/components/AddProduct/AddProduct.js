@@ -12,21 +12,27 @@ class AddProduct extends React.Component {
   static propTypes = {
     t: PropTypes.func,
   };
+  state = {};
 
   handleCancel = () => {
     navigate('/crash-store-8', { replace: true });
   };
 
-  handleChange({ name, description, price, image }) {
-    this.setState({ name, description, price, image });
+  handleChange({ name, description, price, img }) {
+    this.setState({
+      name: name || this.state.name,
+      description: description || this.state.description,
+      price: price || this.state.price,
+      img: img || this.state.img,
+    });
   }
 
   handleAdd = async () => {
-    const { name, description, price, image } = this.state;
-    // this.props.addProduct({ name, description, price, image });
-    await axios.post('/api/products', { name, description, price, image });
+    const { name, description, price, img } = this.state;
+    // this.props.addProduct({ name, description, price, img });
+    await axios.post('/api/products', { name, description, price, img });
     navigate('/crash-store-8', {
-      state: { name, description, price, image },
+      state: { name, description, price, img },
       replace: true,
     });
   };
@@ -64,10 +70,10 @@ class AddProduct extends React.Component {
         </FormField>
         <FormField label="image">
           <Input
-            id="image"
-            dataHook="image"
+            id="img"
+            dataHook="img"
             placeholder="product image"
-            onChange={e => this.handleChange({ image: e.target.value })}
+            onChange={e => this.handleChange({ img: e.target.value })}
           />
         </FormField>
 
