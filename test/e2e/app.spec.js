@@ -36,6 +36,6 @@ describe('React application', () => {
 
   it('should display add product title', async () => {
     await driver.navigateAddProductPage();
-    expect(await page.$eval('h2', e => e.innerText)).toEqual('Hello World!');
+    expect(await page.$eval('h2', e => e.innerText)).toEqual('Add product');
   });
 });

@@ -1,4 +1,5 @@
 {
   "app.title": "Hello World!",
-  "app.intro": "Get started here: https://github.com/wix-private/wix-js-stack"
+  "app.intro": "Get started here: https://github.com/wix-private/wix-js-stack",
+  "product.add.title": "Add product"
 }

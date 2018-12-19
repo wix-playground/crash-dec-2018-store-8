@@ -5,6 +5,7 @@ import axios from 'axios';
 import { wixAxiosConfig } from '@wix/wix-axios-config';
 import i18n from './i18n';
 import App from './components/App';
+import AddProduct from './components/AddProduct';
 import { Router } from '@reach/router';
 
 const baseURL = window.__BASEURL__;
@@ -14,7 +15,7 @@ wixAxiosConfig(axios, { baseURL });
 
 const HomePage = () => <App />;
 const ProductPage = props => <App productName={props.name} />;
-const AddProductPage = () => <App />;
+const AddProductPage = () => <AddProduct />;
 
 ReactDOM.render(
   <I18nextProvider i18n={i18n(locale)}>
