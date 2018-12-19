@@ -2,6 +2,7 @@ import React from 'react';
 import { translate } from 'react-i18next';
 import s from './App.scss';
 import PropTypes from 'prop-types';
+import ProductsList from '../ProductsList';
 
 class App extends React.Component {
   static propTypes = {
@@ -15,7 +16,7 @@ class App extends React.Component {
         <div className={s.header}>
           <h2>{t('app.title')}</h2>
         </div>
-        <p className={s.intro}>{t('app.intro')}</p>
+        <ProductsList />
       </div>
     );
   }
