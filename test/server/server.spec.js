@@ -26,7 +26,7 @@ describe('When rendering', () => {
         description: "some description",
         price: "223",
         img: "diHZhfxwDg"
-      }
+      },
     ];
 
     const url = app.getUrl('/api/products');
@@ -38,5 +38,24 @@ describe('When rendering', () => {
 
     const response = await axios.get(url);
     expect(response.data).toEqual(mockedProductsList);
+  });
+
+  it('should returns information for the specific product', async () => {
+    const mockedProduct = {
+      name: "Product2",
+      description: "some description",
+      price: "223",
+      img: "diHZhfxwDg"
+    };
+
+    const url = app.getUrl(`/api/products/${mockedProduct.name}`);
+    console.log(url);
+
+    rpcServer.when('ProductsService', 'fetchProduct')
+      .respond(([id, name]) =>
+        name === mockedProduct.name ? mockedProduct : null);
+
+      const response = await axios.get(url);
+      expect(response.data).toEqual(mockedProduct);
   });
 });

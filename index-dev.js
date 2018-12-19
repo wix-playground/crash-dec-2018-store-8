@@ -34,7 +34,9 @@ const products = [
   const petriServer = bootstrapPetriServer({ port: petriPort });
 
   rpcServer.when('ProductsService', 'fetch').respond(products);
-  rpcServer.when('ProductsService', 'add').respond(null);
+  rpcServer.when('ProductsService', 'fetchProduct').respond(([id, product]) => {
+    return product;
+  });
 
   rpcServer
     .when("ProductsService", "add")
@@ -42,6 +44,7 @@ const products = [
       products.push(product);
       return null;
     });
+
 
   petriServer.onConductAllInScope(() => ({
     'specs.crash-course.IsAddButtonEnabled': 'true',

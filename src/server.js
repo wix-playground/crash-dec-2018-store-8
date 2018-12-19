@@ -47,8 +47,14 @@ module.exports = (app, context) => {
       .invoke('add', siteId, { name, description, price, img });
     res.json(rpcResponse);
   });
-  // TODO: add
-  // app.get('api/products/:name')
+
+  app.get('/api/products/:name', async (req, res) => {
+    const rpcResponse = await context.rpc
+      .clientFactory(config.services.productsUrl, 'ProductsService')
+      .client(req.aspects)
+      .invoke('fetchProduct', siteId, req.params.name);
+    res.json(rpcResponse);
+  });
 
   // Define a route to render our initial HTML.
   app.get('*', async (req, res) => {
