@@ -23,12 +23,17 @@ module.exports = (app, context) => {
   app.use(context.renderer.middleware());
 
   // Define a route to render our initial HTML.
-  app.get('/', (req, res) => {
+  app.get('*', async (req, res) => {
+    const petriResponse = await context.petri
+      .client(req.aspects)
+      .conductAllInScope('crash-course');
+
+    const experiments = JSON.stringify(petriResponse);
     // Extract some data from every incoming request.
     const renderModel = getRenderModel(req);
 
     // Send a response back to the client.
-    res.renderView('./index.ejs', renderModel);
+    res.renderView('./index.ejs', { experiments, ...renderModel });
   });
 
   function getRenderModel(req) {

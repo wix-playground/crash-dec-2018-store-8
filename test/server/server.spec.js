@@ -2,6 +2,9 @@ import axios from 'axios';
 
 describe('When rendering', () => {
   it('should display a title', async () => {
+    petriServer.onConductAllInScope(() => ({
+      'specs.crash-course.IsAddButtonEnabled': 'true',
+    }));
     const url = app.getUrl('/');
     const response = await axios.get(url);
 

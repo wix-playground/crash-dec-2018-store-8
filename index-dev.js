@@ -23,9 +23,9 @@ const appConfDir = './target/dev/configs';
   //  .when("CommentsService", "fetch")
   //  .respond([{ text: "Hello World", author: "Uncle Bob" }]);
 
-  // petriServer.onConductAllInScope(() => ({
-  //   "specs.productstoreori.IsNewButtonEnabled": "true"
-  // }));
+  petriServer.onConductAllInScope(() => ({
+    'specs.crash-course.IsAddButtonEnabled': 'true',
+  }));
 
   await emitConfigs({ targetFolder: appConfDir, rpcServer });
 

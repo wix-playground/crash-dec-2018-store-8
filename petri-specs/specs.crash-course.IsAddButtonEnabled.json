@@ -1,0 +1,13 @@
+{
+  "specs.crash-course.IsAddButtonEnabled": {
+    "owner": "deansh@wix.com",
+    "onlyForLoggedInUsers": false,
+    "scopes": [
+      "crash-course"
+    ],
+    "controlGroup": "false",
+    "variants": [
+      "true"
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 // import axios from 'axios';
 
 const appDriver = page => ({
-  navigate: () => page.goto(app.getUrl('/')),
+  navigateHomepage: () => page.goto(app.getUrl('/')),
 });
 
 let driver;
@@ -24,7 +24,11 @@ beforeEach(() => {
 
 describe('React application', () => {
   it('should display title', async () => {
-    await driver.navigate();
+    petriServer.onConductAllInScope(() => ({
+      'specs.crash-course.IsAddButtonEnabled': 'true',
+    }));
+
+    await driver.navigateHomepage();
 
     expect(await page.$eval('h2', e => e.innerText)).toEqual('Hello World!');
   });

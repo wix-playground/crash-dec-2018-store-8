@@ -16,6 +16,14 @@
     "release": "yoshi release"
   },
   "dependencies": {
+    "@reach/router": "^1.2.1",
+    "@wix/wix-axios-config": "latest",
+    "@wix/wix-bootstrap-greynode": "latest",
+    "@wix/wix-bootstrap-hadron": "latest",
+    "@wix/wix-bootstrap-ng": "latest",
+    "@wix/wix-bootstrap-renderer": "latest",
+    "@wix/wix-express-csrf": "latest",
+    "@wix/wix-express-require-https": "latest",
     "axios": "~0.16.0",
     "babel-runtime": "^6.26.0",
     "express": "~4.15.0",
@@ -23,14 +31,7 @@
     "prop-types": "~15.6.0",
     "react": "15.6.1",
     "react-dom": "15.6.1",
-    "react-i18next": "^7.11.0",
-    "@wix/wix-axios-config": "latest",
-    "@wix/wix-bootstrap-greynode": "latest",
-    "@wix/wix-bootstrap-hadron": "latest",
-    "@wix/wix-bootstrap-ng": "latest",
-    "@wix/wix-bootstrap-renderer": "latest",
-    "@wix/wix-express-csrf": "latest",
-    "@wix/wix-express-require-https": "latest"
+    "react-i18next": "^7.11.0"
   },
   "devDependencies": {
     "@wix/wix-bootstrap-testkit": "latest",
@@ -67,7 +68,9 @@
   "eslintConfig": {
     "extends": "yoshi",
     "globals": {
-      "app": false
+      "app": false,
+      "rpcServer": true,
+      "petriServer": true
     }
   }
 }

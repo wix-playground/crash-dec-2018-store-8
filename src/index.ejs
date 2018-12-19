@@ -14,6 +14,7 @@
       window.__BASEURL__ = '<%= basename %>';
       window.__LOCALE__ = '<%= language %>';
       window.__STATICS_BASE_URL__ = '<%= baseStaticsUrl %>';
+      window.__EXPERIMENTS__ = <%= experiments %>;
     </script>
     <script src="<%= baseStaticsUrl %>app.bundle<% if (!debug) { %>.min<% } %>.js"></script>
   </body>
