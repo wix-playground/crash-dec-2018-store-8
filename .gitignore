@@ -10,3 +10,4 @@ maven
 test/e2e/screenshots
 package-lock.json
 .yo-rc.json
+.DS_Store

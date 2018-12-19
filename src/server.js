@@ -2,6 +2,7 @@ import wixExpressCsrf from '@wix/wix-express-csrf';
 import wixExpressRequireHttps from '@wix/wix-express-require-https';
 import bodyParser from 'body-parser';
 
+const siteId = '2963d463-3ce5-4d22-ab81-7b1b4d09c8db';
 // This function is the main entry for our server. It accepts an express Router
 // (see http://expressjs.com) and attaches routes and middlewares to it.
 //
@@ -34,11 +35,19 @@ module.exports = (app, context) => {
     const rpcResponse = await context.rpc
       .clientFactory(config.services.productsUrl, 'ProductsService')
       .client(req.aspects)
-      .invoke('fetch', '2963d463-3ce5-4d22-ab81-7b1b4d09c8db');
+      .invoke('fetch', siteId);
+    res.json(rpcResponse);
+  });
+
+  app.post('/api/products', async (req, res) => {
+    const { name, description, price, image } = req.body;
+    const rpcResponse = await context.rpc
+      .clientFactory(config.services.productsUrl, 'ProductsService')
+      .client(req.aspects)
+      .invoke('add', siteId, { name, description, price, image });
     res.json(rpcResponse);
   });
   // TODO: add
-  // app.post('/api/products')
   // app.get('api/products/:name')
 
   // Define a route to render our initial HTML.

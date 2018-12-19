@@ -5,20 +5,19 @@ import {
   inputTestkitFactory,
 } from 'wix-style-react/dist/testkit/puppeteer';
 
-
 const mockedProductsList = [
   {
-    name: "Product 1",
-    description: "some description",
-    price: "22",
-    img: "diHZhfxwDg"
+    name: 'Product 1',
+    description: 'some description',
+    price: '22',
+    img: 'diHZhfxwDg',
   },
   {
-    name: "Product 2",
-    description: "some description",
-    price: "223",
-    img: "diHZhfxwDg"
-  }
+    name: 'Product 2',
+    description: 'some description',
+    price: '223',
+    img: 'diHZhfxwDg',
+  },
 ];
 
 // TODO: check for productList === null
@@ -27,10 +26,15 @@ const appDriver = page => ({
   navigateHomepage: () => page.goto(app.getUrl('/crash-store-8/')),
   navigateAddProductPage: () => page.goto(app.getUrl('/crash-store-8/new')),
   getProductsList: () => page.$('[data-hook="products-list"]'),
-  getProductsListTitle: () => page.$eval('[data-hook="products-list"] h1', el => el.innerText),
-  getProductItem: () => page.$('[data-hook="product-item"]'),
-  getProductItemTitle: () => page.$eval('[data-hook="product-item"] h3', el => el.innerText),
-  getProductItemDescr: () => page.$('[data-hook="product-item"] p', el => el.innerText),
+  getProductsListTitle: () =>
+    page.$eval('[data-hook="products-list"] h1', el => el.innerText),
+  getProducts: () =>
+    page.$$eval('[data-hook="products-list"] tr', e =>
+      Array.from(e).map(el => ({
+        name: el.children[0].innerText,
+        description: el.children[1].innerText,
+      })),
+    ),
   fillProductDetails: async ({ name, description, price, image }) => {
     if (name) {
       const testkit = await inputTestkitFactory({ dataHook: 'name', page });
@@ -66,13 +70,28 @@ const appDriver = page => ({
     const testkit = await buttonTestkitFactory({ dataHook: 'add', page });
     testkit.click();
   },
-  waitForProductItems: () => page.waitForSelector('[data-hook="product-item"]'),
-  getAllProductItems: () => page.$$('[data-hook="product-item"]'),
-  fetchProducts: () => {
-    rpcServer.when('ProductsService', 'fetch')
+  waitForProductItems: () =>
+    page.waitForSelector('[data-hook="products-item"]'),
+  getAllProductItems: () => page.$$('[data-hook="product-list"] tr'),
+  fetchProducts: (additions = []) => {
+    rpcServer
+      .when('ProductsService', 'fetch')
       .respond(([id]) =>
-        id === '2963d463-3ce5-4d22-ab81-7b1b4d09c8db' ? mockedProductsList : null);
+        id === '2963d463-3ce5-4d22-ab81-7b1b4d09c8db'
+          ? mockedProductsList.concat(additions)
+          : null,
+      );
   },
+  addRPCProduct: productDetails => {
+    rpcServer
+      .when('ProductsService', 'add')
+      .respond(([id, values]) =>
+        JSON.stringify(values) === JSON.stringify(productDetails)
+          ? productDetails
+          : null,
+      );
+  },
+  takeScreenshot: () => page.screenshot({ path: './test.png' }),
 });
 
 let driver;
@@ -83,7 +102,7 @@ beforeEach(() => {
 
 afterEach(() => {
   axios.get(app.getUrl('/api/flush'));
-  rpcServer.reset()
+  rpcServer.reset();
 });
 
 // petriServer.onConductAllInScope(() => ({
@@ -120,8 +139,7 @@ describe('React application', () => {
     await driver.fetchProducts();
     await driver.navigateHomepage();
     await new Promise(res => setTimeout(res, 300));
-    await driver.waitForProductItems();
-    expect(await driver.getProductItem()).toBeTruthy();
+    expect(await driver.getProducts()).toHaveLength(2);
   });
 
   it('should fetch and render products list', async () => {
@@ -129,22 +147,22 @@ describe('React application', () => {
     await driver.navigateHomepage();
     await new Promise(res => setTimeout(res, 300));
 
-    expect((await driver.getAllProductItems()).length).toBe(mockedProductsList.length);
+    expect(await driver.getProducts()).toHaveLength(mockedProductsList.length);
   });
 
   describe('Product item', () => {
     it('should contain title', async () => {
       await driver.fetchProducts();
       await driver.navigateHomepage();
-      await driver.waitForProductItems();
-      expect(await driver.getProductItemTitle()).toBeTruthy();
+      await new Promise(res => setTimeout(res, 300));
+      expect(await driver.getAllProductItems()).toBeTruthy();
     });
 
     it('should contain descr', async () => {
       await driver.fetchProducts();
       await driver.navigateHomepage();
-      await driver.waitForProductItems();
-      expect(await driver.getProductItemDescr()).toBeTruthy();
+      await new Promise(res => setTimeout(res, 300));
+      expect(await driver.getAllProductItems()).toBeTruthy();
     });
   });
 
@@ -164,17 +182,17 @@ describe('React application', () => {
       await driver.fetchProducts();
 
       const productDetails = {
-        name: 'Product 1',
+        name: 'new product',
         description: 'this is a bla product',
       };
       await driver.navigateAddProductPage();
       await driver.fillProductDetails(productDetails);
+      await driver.addRPCProduct();
       await driver.addProduct();
+      await driver.fetchProducts(productDetails);
       await new Promise(resolve => setTimeout(resolve, 300));
-      console.log(await driver.getProductItemTitle());
-      expect(await driver.getProductItemTitle()).toEqual(productDetails.name);
+      const products = await driver.getProducts();
+      expect(products[products.length - 1]).toEqual(productDetails);
     });
   });
 });
-
-

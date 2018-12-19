@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 
 class ProductsList extends React.Component {
-  static propTypes = {
-  };
+  static propTypes = {};
 
   state = {
-    productsList: []
+    productsList: [],
   };
 
   componentDidMount() {
@@ -26,12 +25,17 @@ class ProductsList extends React.Component {
     return (
       <div data-hook="products-list">
         <h1>All Products List</h1>
-        {productsList && productsList.map((productItem) => (
-            <div data-hook="product-item" key={productItem.name}>
-              <h3>{productItem.name}</h3>
-              <p>{productItem.description}</p>
-            </div>
-          ))}
+        <table>
+          <tbody>
+            {productsList &&
+              productsList.map(productItem => (
+                <tr key={productItem.name}>
+                  <td>{productItem.name}</td>
+                  <td>{productItem.description}</td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
       </div>
     );
   }

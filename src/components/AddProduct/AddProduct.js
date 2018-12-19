@@ -6,6 +6,7 @@ import Button from 'wix-style-react/Button';
 import FormField from 'wix-style-react/FormField';
 import Input from 'wix-style-react/Input';
 import { navigate } from '@reach/router';
+import axios from 'axios';
 
 class AddProduct extends React.Component {
   static propTypes = {
@@ -20,9 +21,10 @@ class AddProduct extends React.Component {
     this.setState({ name, description, price, image });
   }
 
-  handleAdd = () => {
+  handleAdd = async () => {
     const { name, description, price, image } = this.state;
     // this.props.addProduct({ name, description, price, image });
+    await axios.post('/api/products', { name, description, price, image });
     navigate('/crash-store-8', {
       state: { name, description, price, image },
       replace: true,
