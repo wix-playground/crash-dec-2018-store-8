@@ -1,11 +1,11 @@
 // import axios from 'axios';
 
 const appDriver = page => ({
-  navigateHomepage: () => page.goto(app.getUrl('/')),
-  navigateAddProductPage: () => page.goto(app.getUrl('/new')),
-  getProductsList: () =>
-    page.$('[data-hook="products-list"]'),
-  getProductsListTitle: () => page.$eval('[data-hook="products-list"] h1', el => el.innerText),
+  navigateHomepage: () => page.goto(app.getUrl('/crash-store-8/')),
+  navigateAddProductPage: () => page.goto(app.getUrl('/crash-store-8/new')),
+  getProductsList: () => page.$('[data-hook="products-list"]'),
+  getProductsListTitle: () =>
+    page.$eval('[data-hook="products-list"] h1', el => el.innerText),
   getProductItem: () => page.$('[data-hook="product-item"]'),
   getProductItemTitle: () => page.$('[data-hook="product-item"] h3'),
   getProductItemDescr: () => page.$('[data-hook="product-item"] p'),

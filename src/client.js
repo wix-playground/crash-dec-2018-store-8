@@ -19,7 +19,7 @@ const AddProductPage = () => <AddProduct />;
 
 ReactDOM.render(
   <I18nextProvider i18n={i18n(locale)}>
-    <Router>
+    <Router basepath="/crash-store-8">
       <HomePage path="/" />
       <ProductPage path="/product/:name" />
       <AddProductPage path="/new" />

@@ -22,6 +22,10 @@ module.exports = (app, context) => {
   // See https://github.com/wix-private/fed-infra/tree/master/wix-bootstrap-renderer.
   app.use(context.renderer.middleware());
 
+  app.get('/', (req, res) => {
+    res.redirect('/crash-store-8');
+  });
+
   // Define a route to render our initial HTML.
   app.get('*', async (req, res) => {
     const petriResponse = await context.petri

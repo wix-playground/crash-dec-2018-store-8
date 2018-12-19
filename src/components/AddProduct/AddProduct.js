@@ -2,6 +2,7 @@ import React from 'react';
 import { translate } from 'react-i18next';
 // import s from './AddProduct.scss';
 import PropTypes from 'prop-types';
+import Button from 'wix-style-react/Button';
 
 class AddProduct extends React.Component {
   static propTypes = {
@@ -15,7 +16,9 @@ class AddProduct extends React.Component {
         <div>
           <h2>{t('product.add.title')}</h2>
         </div>
-        <p>{t('app.intro')}</p>
+        <Button onClick={() => console.log('thanks for clicking :)')}>
+          Add!
+        </Button>
       </div>
     );
   }
