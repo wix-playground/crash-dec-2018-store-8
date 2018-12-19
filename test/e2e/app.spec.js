@@ -21,6 +21,8 @@ const mockedProductsList = [
   }
 ];
 
+// TODO: check for productList === null
+
 const appDriver = page => ({
   navigateHomepage: () => page.goto(app.getUrl('/crash-store-8/')),
   navigateAddProductPage: () => page.goto(app.getUrl('/crash-store-8/new')),
@@ -90,18 +92,11 @@ afterEach(() => {
 // rpcServer
 //   .when("CommentsService", "fetch")
 //   .respond([{ text: "Hello World", author: "Uncle Bob" }]);
+// petriServer.onConductAllInScope(() => ({
+//   'specs.crash-course.IsAddButtonEnabled': 'true',
+// }));
 
 describe('React application', () => {
-  it('should display title', async () => {
-    await driver.fetchProducts();
-
-    petriServer.onConductAllInScope(() => ({
-      'specs.crash-course.IsAddButtonEnabled': 'true',
-    }));
-    await driver.navigateHomepage();
-    expect(await page.$eval('h2', e => e.innerText)).toEqual('Hello World!');
-  });
-
   it('should display add product title', async () => {
     await driver.navigateAddProductPage();
     expect(await page.$eval('h2', e => e.innerText)).toEqual('Add product');
@@ -156,13 +151,13 @@ describe('React application', () => {
   describe('Add Product Page', () => {
     it('should add product but cancel', async () => {
       await driver.fetchProducts();
-
       await driver.navigateAddProductPage();
       expect(await page.$eval('h2', e => e.innerText)).toEqual('Add product');
+
       await driver.fillProductDetails({ name: 'bla' });
       await driver.cancelAddProduct();
       await new Promise(resolve => setTimeout(resolve, 300));
-      expect(await page.$eval('h2', e => e.innerText)).toEqual('Hello World!');
+      expect(await page.$eval('h2', e => e.innerText)).toEqual('Awesome store');
     });
 
     it('should add product', async () => {

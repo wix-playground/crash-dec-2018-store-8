@@ -10,12 +10,9 @@ class App extends React.Component {
   };
 
   render() {
-    const { t } = this.props;
     return (
       <div className={s.root}>
-        <div className={s.header}>
-          <h2>{t('app.title')}</h2>
-        </div>
+        <h2>Awesome store</h2>
         <ProductsList />
       </div>
     );

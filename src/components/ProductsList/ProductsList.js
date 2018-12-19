@@ -10,13 +10,6 @@ class ProductsList extends React.Component {
     productsList: []
   };
 
-  productItem = {
-    name:"Product 1",
-    description:"some description",
-    price:"GVExxnpJBs",
-    img:"diHZhfxwDg"
-  };
-
   componentDidMount() {
     void this.handleFetchProducts();
   }
@@ -33,7 +26,7 @@ class ProductsList extends React.Component {
     return (
       <div data-hook="products-list">
         <h1>All Products List</h1>
-        {productsList.map((productItem) => (
+        {productsList && productsList.map((productItem) => (
             <div data-hook="product-item" key={productItem.name}>
               <h3>{productItem.name}</h3>
               <p>{productItem.description}</p>
