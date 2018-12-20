@@ -25,11 +25,11 @@ module.exports = (app, context) => {
   app.use(context.renderer.middleware());
   app.use(bodyParser.json());
 
-  if (process.env.NODE_ENV !== 'production') {
-    app.get('/', (req, res) => {
-      res.redirect('/crash-store-8');
-    });
-  }
+  // if (process.env.NODE_ENV !== 'production') {
+  //   app.get('/', (req, res) => {
+  //     res.redirect('/crash-store-8');
+  //   });
+  // }
 
   app.get('/api/products', async (req, res) => {
     const rpcResponse = await context.rpc

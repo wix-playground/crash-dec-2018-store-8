@@ -29,9 +29,10 @@ const toHtmlVisibleProduct = ({ name, description, price, img }) => {
 };
 // TODO: check for productList === null
 
+
 const appDriver = page => ({
-  navigateHomepage: () => page.goto(app.getUrl('/crash-store-8/')),
-  navigateAddProductPage: () => page.goto(app.getUrl('/crash-store-8/new')),
+  navigateHomepage: () => page.goto(app.getUrl('/')),
+  navigateAddProductPage: () => page.goto(app.getUrl('/new')),
   getProductsList: () => page.$('[data-hook="products-list-container"]'),
   getProductsListTitle: () =>
     page.$eval(
@@ -207,7 +208,10 @@ describe('React application', () => {
       driver.getDefaultExperiments();
       await driver.fetchProducts();
       await driver.navigateAddProductPage();
-      expect(await page.$eval('h2', e => e.innerText)).toEqual('Add product');
+      driver.takeScreenshot();
+      expect(await page.$eval('h2', e => {
+        return e.innerText
+      })).toEqual('Add product');
 
       await driver.fillProductDetails({ name: 'bla' });
       await driver.cancelAddProduct();

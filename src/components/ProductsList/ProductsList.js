@@ -1,33 +1,33 @@
 import React from 'react';
-import axios from 'axios';
 import { navigate } from '@reach/router';
 import { withExperiments } from 'wix-experiments-react';
 import Table from 'wix-style-react/Table';
 import Button from 'wix-style-react/Button';
+import { fetchProducts } from '../../apiServices';
 
 class ProductsList extends React.Component {
   state = {
     productsList: [],
   };
 
-  componentDidMount() {
-    void this.handleFetchProducts();
+  async componentDidMount() {
+    await this.handleFetchProducts();
   }
 
   handleFetchProducts = async () => {
-    const { data } = await axios.get('/api/products');
+    const { data } = await fetchProducts();
     this.setState({
       productsList: data,
     });
   };
 
   handleProductClicked = product => {
-    navigate(`/crash-store-8/product/${product.name}`);
+    navigate(`${this.props.location.origin}/${this.props.uri}/product/${product.name}`);
   };
 
-  handleAddProductClicked() {
-    navigate(`/crash-store-8/new`);
-  }
+  handleAddProductClicked = () => {
+    navigate(`${this.props.location.origin}/${this.props.uri}/new`);
+  };
 
   render() {
     const { productsList } = this.state;
@@ -35,6 +35,7 @@ class ProductsList extends React.Component {
     const addProductEnabled = experiments.enabled(
       'specs.crash-course.IsAddButtonEnabled',
     );
+
     return (
       <div data-hook="products-list-container">
         <h2>All Products List</h2>
