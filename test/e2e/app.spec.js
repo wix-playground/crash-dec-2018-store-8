@@ -132,6 +132,14 @@ const appDriver = page => ({
       'specs.crash-course.IsAddButtonEnabled': 'true',
     }));
   },
+  searchImage: async term => {
+    const testkit = await inputTestkitFactory({
+      dataHook: 'img',
+      page,
+    });
+    await testkit.enterText(term);
+  },
+  hasImages: () => !!page.$('[data-hook="images"]'),
 });
 
 let driver;
@@ -233,6 +241,15 @@ describe('React application', () => {
       await new Promise(resolve => setTimeout(resolve, 300));
       const products = await driver.getProducts();
       expect(products[products.length - 1]).toEqual(productDetails);
+    });
+
+    it('should search image on flicker', async () => {
+      driver.getDefaultExperiments();
+      await driver.fetchProducts();
+      await driver.navigateAddProductPage();
+      await driver.searchImage('turtle');
+      await new Promise(resolve => setTimeout(resolve, 300));
+      expect(driver.hasImages()).toBe(true);
     });
   });
 

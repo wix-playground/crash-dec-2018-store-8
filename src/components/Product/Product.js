@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from '@reach/router';
 import axios from 'axios';
 import Heading from 'wix-style-react/Heading';
+import s from './Product.scss';
 
 class Product extends React.Component {
   state = {};
@@ -24,7 +25,7 @@ class Product extends React.Component {
         <Heading appearance="H3">{product.description}</Heading>
         <Heading appearance="H3">{product.price}₪</Heading>
         <div>
-          <img src={product.img} alt={product.img} />
+          <img src={product.img} alt={product.img} className={s.productImage} />
         </div>
 
         <Link to="../../">Back</Link>

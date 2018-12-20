@@ -1,0 +1,33 @@
+.imagesContainer{
+  margin-top: 2em;
+  width: 100vw;
+  height: 30vh;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: auto;
+  div{
+    background-size: cover;
+    flex: 1;
+    min-width: 20%;
+    height: 10vh;
+    cursor: pointer;
+  }
+}
+
+.selected{
+  position: relative;
+  &:after{
+    position: absolute;
+    content: '✓';
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 350%;
+  }
+}

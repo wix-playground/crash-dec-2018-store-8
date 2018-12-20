@@ -7,6 +7,8 @@ import FormField from 'wix-style-react/FormField';
 import Input from 'wix-style-react/Input';
 import { navigate } from '@reach/router';
 import axios from 'axios';
+import debounce from 'debounce';
+import s from './AddProduct.scss';
 
 class AddProduct extends React.Component {
   static propTypes = {
@@ -35,6 +37,17 @@ class AddProduct extends React.Component {
       state: { name, description, price, img },
       replace: true,
     });
+  };
+
+  handleImageChange = debounce(async term => {
+    const { data: images } = await axios.get(
+      `https://api.unsplash.com/search/photos?page=1&query=${term}&client_id=a5d4238f515992d21f853e054a976abdc2467ea35799c7fea1e208f78e8b0644`,
+    );
+    this.setState({ flickerImages: images.results.map(i => i.links.download) });
+  }, 200);
+
+  handleSelectImage = img => {
+    this.setState({ img });
   };
 
   render() {
@@ -73,9 +86,23 @@ class AddProduct extends React.Component {
             id="img"
             dataHook="img"
             placeholder="product image"
-            onChange={e => this.handleChange({ img: e.target.value })}
+            onChange={e => this.handleImageChange(e.target.value)}
           />
         </FormField>
+
+        {this.state.flickerImages && (
+          <div className={s.imagesContainer} data-hook="images">
+            {this.state.flickerImages.map(url => (
+              <div
+                className={url === this.state.img && s.selected}
+                onClick={() => this.handleSelectImage(url)}
+                key={url}
+                style={{ backgroundImage: `url("${url}")` }}
+                alt={url}
+              />
+            ))}
+          </div>
+        )}
 
         <Button dataHook="add" onClick={this.handleAdd}>
           Add
