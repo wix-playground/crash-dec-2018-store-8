@@ -127,6 +127,11 @@ const appDriver = page => ({
       price: el.children[2].innerText,
       img: el.children[3].src,
     })),
+  getDefaultExperiments: () => {
+    petriServer.onConductAllInScope(() => ({
+      'specs.crash-course.IsAddButtonEnabled': 'true',
+    }));
+  },
 });
 
 let driver;
@@ -136,27 +141,18 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  axios.get(app.getUrl('/api/flush'));
   rpcServer.reset();
 });
 
-// petriServer.onConductAllInScope(() => ({
-//       "specs.cx.IsMyButtonBig": "true"
-//     }));
-// rpcServer
-//   .when("CommentsService", "fetch")
-//   .respond([{ text: "Hello World", author: "Uncle Bob" }]);
-// petriServer.onConductAllInScope(() => ({
-//   'specs.crash-course.IsAddButtonEnabled': 'true',
-// }));
-
 describe('React application', () => {
   it('should display add product title', async () => {
+    driver.getDefaultExperiments();
     await driver.navigateAddProductPage();
     expect(await page.$eval('h2', e => e.innerText)).toEqual('Add product');
   });
 
   it('should contain products list:', async () => {
+    driver.getDefaultExperiments();
     await driver.fetchProducts();
     await driver.navigateHomepage();
     await new Promise(res => setTimeout(res, 300));
@@ -164,6 +160,7 @@ describe('React application', () => {
   });
 
   it('should contain products list title All Products List', async () => {
+    driver.getDefaultExperiments();
     await driver.fetchProducts();
     await driver.navigateHomepage();
     await new Promise(res => setTimeout(res, 300));
@@ -171,6 +168,7 @@ describe('React application', () => {
   });
 
   it('should contain withing product list one product item', async () => {
+    driver.getDefaultExperiments();
     await driver.fetchProducts();
     await driver.navigateHomepage();
     await new Promise(res => setTimeout(res, 300));
@@ -178,6 +176,7 @@ describe('React application', () => {
   });
 
   it('should fetch and render products list', async () => {
+    driver.getDefaultExperiments();
     await driver.fetchProducts();
     await driver.navigateHomepage();
     await new Promise(res => setTimeout(res, 300));
@@ -187,6 +186,7 @@ describe('React application', () => {
 
   describe('Product item', () => {
     it('should contain title', async () => {
+      driver.getDefaultExperiments();
       await driver.fetchProducts();
       await driver.navigateHomepage();
       await new Promise(res => setTimeout(res, 300));
@@ -194,6 +194,7 @@ describe('React application', () => {
     });
 
     it('should contain descr', async () => {
+      driver.getDefaultExperiments();
       await driver.fetchProducts();
       await driver.navigateHomepage();
       await new Promise(res => setTimeout(res, 300));
@@ -203,6 +204,7 @@ describe('React application', () => {
 
   describe('Add Product Page', () => {
     it('should add product but cancel', async () => {
+      driver.getDefaultExperiments();
       await driver.fetchProducts();
       await driver.navigateAddProductPage();
       expect(await page.$eval('h2', e => e.innerText)).toEqual('Add product');
@@ -216,6 +218,7 @@ describe('React application', () => {
     });
 
     it('should add product', async () => {
+      driver.getDefaultExperiments();
       await driver.fetchProducts();
 
       const productDetails = {
@@ -235,6 +238,7 @@ describe('React application', () => {
 
   describe('Product Page', () => {
     it('should see product', async () => {
+      driver.getDefaultExperiments();
       await driver.fetchProducts();
       await driver.fetchProductRpc();
       await driver.navigateHomepage();
@@ -250,9 +254,7 @@ describe('React application', () => {
     afterEach(() => petriServer.reset());
 
     it('should render add product button', async () => {
-      petriServer.onConductAllInScope(() => ({
-        'specs.crash-course.IsAddButtonEnabled': 'true',
-      }));
+      driver.getDefaultExperiments();
       await driver.fetchProducts();
       await driver.navigateHomepage();
       expect(await driver.getNavigateAddProductLink()).toBeTruthy();
