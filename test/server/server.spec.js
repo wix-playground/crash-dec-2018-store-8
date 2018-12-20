@@ -62,6 +62,24 @@ describe('When rendering', () => {
     const response = await axios.get(url);
     expect(response.data).toEqual(mockedProduct);
   });
-});
 
-// TODO: add for add product.
+  it('should returns null when adding new product', async () => {
+    const mockedProduct = {
+      name: 'Product2',
+      description: 'some description',
+      price: '223',
+      img: 'diHZhfxwDg',
+    };
+
+    const url = app.getUrl(`/api/products`);
+
+    rpcServer.when('ProductsService', 'add').respond(([id, newProduct]) => {
+      return JSON.stringify(newProduct) === JSON.stringify(mockedProduct) ? null : 'error';
+      }
+    );
+
+    const response = await axios.post(url, mockedProduct);
+
+    expect(response.data).toBeNull();
+  });
+});
