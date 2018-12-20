@@ -7,33 +7,12 @@ import { Router } from '@reach/router';
 import AddProduct from '../AddProduct';
 import Product from '../Product';
 
-const tempProduct = {
-  description: 'some description',
-  img: 'diHZhfxwDg',
-  name: 'Product 1',
-  price: '22',
-};
-
 const HomePage = () => <ProductsList />;
-const ProductPage = props => (
-  <Product productId={props.name} product={tempProduct} />
-);
+const ProductPage = ({ name }) => <Product productId={name} />;
 const AddProductPage = () => <AddProduct />;
 
-// TODO move to util
-function compose(...functions) {
-  if (functions.length === 0) {
-    return arg => arg;
-  }
-
-  if (functions.length === 1) {
-    return functions[0];
-  }
-
-  return functions.reduce((a, b) => (...args) => a(b(...args)));
-}
-
 class App extends React.Component {
+  state = {};
   static propTypes = {
     t: PropTypes.func,
   };

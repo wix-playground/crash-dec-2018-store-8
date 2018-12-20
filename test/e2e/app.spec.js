@@ -9,13 +9,13 @@ const mockedProductsList = [
     name: 'Product 1',
     description: 'some description',
     price: '22',
-    img: 'diHZhfxwDg',
+    img: 'http://bla.com/diHZhfxwDg',
   },
   {
     name: 'Product 2',
     description: 'some description',
     price: '223',
-    img: 'diHZhfxwDg',
+    img: 'http://bla.com/diHZhfxwDg',
   },
 ];
 
@@ -24,7 +24,7 @@ const toHtmlVisibleProduct = ({ name, description, price, img }) => {
     name: `Product: ${name} - ${name}`,
     description,
     price: `${price}₪`,
-    img: `http://localhost:1303/crash-store-8/product/${img}`,
+    img: `${img}`,
   };
 };
 // TODO: check for productList === null
@@ -89,6 +89,15 @@ const appDriver = page => ({
           : null,
       );
   },
+  fetchProductRpc: () => {
+    rpcServer
+      .when('ProductsService', 'fetchProduct')
+      .respond(([id, name]) =>
+        id === '2963d463-3ce5-4d22-ab81-7b1b4d09c8db'
+          ? mockedProductsList[0]
+          : null,
+      );
+  },
   addRPCProduct: productDetails => {
     rpcServer
       .when('ProductsService', 'add')
@@ -102,7 +111,8 @@ const appDriver = page => ({
     return await page.$('[data-hook="add-product-link"]');
   },
   takeScreenshot: () => page.screenshot({ path: './test.png' }),
-  clickFirstProduct: () => page.click('[data-hook="products-list"] tr td a'),
+  clickFirstProduct: () =>
+    page.click('[data-hook="products-list"] tbody tr td a'),
   getProduct: () =>
     page.$eval('[data-hook="product"]', el => ({
       name: el.children[0].innerText,
@@ -219,6 +229,7 @@ describe('React application', () => {
   describe('Product Page', () => {
     it('should see product', async () => {
       await driver.fetchProducts();
+      await driver.fetchProductRpc();
       await driver.navigateHomepage();
       await new Promise(resolve => setTimeout(resolve, 300));
       await driver.clickFirstProduct();
