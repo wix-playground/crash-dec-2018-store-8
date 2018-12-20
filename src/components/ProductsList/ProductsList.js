@@ -27,6 +27,12 @@ class ProductsList extends React.Component {
       <div data-hook="products-list">
         <h1>All Products List</h1>
         <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
           <tbody>
             {productsList &&
               productsList.map(productItem => (

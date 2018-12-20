@@ -10,7 +10,7 @@ function Product({ productId, product: { name, description, price, img } }) {
       <div>{description}</div>
       <div>{price}₪</div>
       <img src={img} alt={img} />
-
+      <br />
       <Link to="../../">Back</Link>
     </div>
   );

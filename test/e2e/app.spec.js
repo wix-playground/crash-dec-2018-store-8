@@ -37,7 +37,7 @@ const appDriver = page => ({
   getProductsListTitle: () =>
     page.$eval('[data-hook="products-list"] h1', el => el.innerText),
   getProducts: () =>
-    page.$$eval('[data-hook="products-list"] tr', e =>
+    page.$$eval('[data-hook="products-list"] tbody tr', e =>
       Array.from(e).map(el => ({
         name: el.children[0].innerText,
         description: el.children[1].innerText,
