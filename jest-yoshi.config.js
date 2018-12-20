@@ -47,6 +47,8 @@ module.exports = {
     },
   },
   // puppeteer: {
-  //   headless: false
-  // }
+  //   headless: false,
+  //   devtools: true,
+  //   slowMo: 250
+  // },
 };

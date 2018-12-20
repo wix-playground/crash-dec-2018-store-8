@@ -45,7 +45,6 @@ const products = [
       return null;
     });
 
-
   petriServer.onConductAllInScope(() => ({
     'specs.crash-course.IsAddButtonEnabled': 'true',
   }));

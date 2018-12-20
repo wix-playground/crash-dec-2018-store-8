@@ -7,7 +7,7 @@ class ProductsList extends React.Component {
   static propTypes = {};
 
   state = {
-    productsList: [],
+    productsList: null,
   };
 
   componentDidMount() {

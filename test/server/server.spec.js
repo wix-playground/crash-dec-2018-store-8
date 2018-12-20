@@ -63,3 +63,5 @@ describe('When rendering', () => {
     expect(response.data).toEqual(mockedProduct);
   });
 });
+
+// TODO: add for add product.

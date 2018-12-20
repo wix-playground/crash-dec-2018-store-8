@@ -32,6 +32,7 @@
     "react": "15.6.1",
     "react-dom": "15.6.1",
     "react-i18next": "^7.11.0",
+    "wix-experiments-react": "^2.0.6",
     "wix-style-react": "^5.18.2"
   },
   "devDependencies": {

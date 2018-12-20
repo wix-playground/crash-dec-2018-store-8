@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {
   buttonTestkitFactory,
-  // formFieldTestkitFactory,
   inputTestkitFactory,
 } from 'wix-style-react/dist/testkit/puppeteer';
 
@@ -35,7 +34,7 @@ const appDriver = page => ({
   navigateAddProductPage: () => page.goto(app.getUrl('/crash-store-8/new')),
   getProductsList: () => page.$('[data-hook="products-list"]'),
   getProductsListTitle: () =>
-    page.$eval('[data-hook="products-list"] h1', el => el.innerText),
+    page.$eval('[data-hook="products-list"] h1', el => el.textContent),
   getProducts: () =>
     page.$$eval('[data-hook="products-list"] tbody tr', e =>
       Array.from(e).map(el => ({
@@ -98,6 +97,9 @@ const appDriver = page => ({
           ? productDetails
           : null,
       );
+  },
+  getNavigateAddProductLink: async () => {
+    return await page.$('[data-hook="add-product-link"]');
   },
   takeScreenshot: () => page.screenshot({ path: './test.png' }),
   clickFirstProduct: () => page.click('[data-hook="products-list"] tr td a'),
@@ -162,7 +164,7 @@ describe('React application', () => {
     await driver.fetchProducts();
     await driver.navigateHomepage();
     await new Promise(res => setTimeout(res, 300));
-
+// add eventually maybe
     expect(await driver.getProducts()).toHaveLength(mockedProductsList.length);
   });
 
@@ -222,6 +224,29 @@ describe('React application', () => {
       driver.takeScreenshot();
       const product = toHtmlVisibleProduct(mockedProductsList[0]);
       expect(await driver.getProduct()).toEqual(product);
+    });
+  });
+
+  describe('Experiment: ', () => {
+    afterEach(() => petriServer.reset());
+
+    it('should render add product button', async () => {
+      petriServer.onConductAllInScope(() => ({
+        "specs.crash-course.IsAddButtonEnabled": "true"
+      }));
+      await driver.fetchProducts();
+      await driver.navigateHomepage();
+      expect(await driver.getNavigateAddProductLink()).toBeTruthy();
+    });
+
+    it('should not  render add product button', async () => {
+      petriServer.onConductAllInScope(() => ({
+        "specs.crash-course.IsAddButtonEnabled": "false"
+      }));
+      await driver.fetchProducts();
+      await driver.navigateHomepage();
+
+      expect(await driver.getNavigateAddProductLink()).toBeNull();
     });
   });
 });
