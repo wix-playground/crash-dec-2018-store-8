@@ -125,7 +125,7 @@ const appDriver = page => ({
       name: el.children[0].innerText,
       description: el.children[1].innerText,
       price: el.children[2].innerText,
-      img: el.children[3].src,
+      img: el.children[3].children[0].src,
     })),
   getDefaultExperiments: () => {
     petriServer.onConductAllInScope(() => ({
