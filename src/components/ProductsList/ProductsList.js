@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { Link } from '@reach/router';
 
 class ProductsList extends React.Component {
   static propTypes = {};
@@ -30,7 +31,11 @@ class ProductsList extends React.Component {
             {productsList &&
               productsList.map(productItem => (
                 <tr key={productItem.name}>
-                  <td>{productItem.name}</td>
+                  <td>
+                    <Link to={`product/${productItem.name}`}>
+                      {productItem.name}
+                    </Link>
+                  </td>
                   <td>{productItem.description}</td>
                 </tr>
               ))}

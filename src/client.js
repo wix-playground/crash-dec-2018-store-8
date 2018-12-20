@@ -6,6 +6,7 @@ import { wixAxiosConfig } from '@wix/wix-axios-config';
 import i18n from './i18n';
 import App from './components/App';
 import AddProduct from './components/AddProduct';
+import Product from './components/Product';
 import { Router } from '@reach/router';
 
 const baseURL = window.__BASEURL__;
@@ -13,8 +14,17 @@ const locale = window.__LOCALE__;
 
 wixAxiosConfig(axios, { baseURL });
 
+const tempProduct = {
+  description: 'some description',
+  img: 'diHZhfxwDg',
+  name: 'Product 1',
+  price: '22',
+};
+
 const HomePage = () => <App />;
-const ProductPage = props => <App productName={props.name} />;
+const ProductPage = props => (
+  <Product productId={props.name} product={tempProduct} />
+);
 const AddProductPage = () => <AddProduct />;
 
 ReactDOM.render(

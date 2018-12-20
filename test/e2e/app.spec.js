@@ -20,6 +20,14 @@ const mockedProductsList = [
   },
 ];
 
+const toHtmlVisibleProduct = ({ name, description, price, img }) => {
+  return {
+    name: `Product: ${name} - ${name}`,
+    description,
+    price: `${price}₪`,
+    img: `http://localhost:1303/crash-store-8/product/${img}`,
+  };
+};
 // TODO: check for productList === null
 
 const appDriver = page => ({
@@ -92,6 +100,14 @@ const appDriver = page => ({
       );
   },
   takeScreenshot: () => page.screenshot({ path: './test.png' }),
+  clickFirstProduct: () => page.click('[data-hook="products-list"] tr td a'),
+  getProduct: () =>
+    page.$eval('[data-hook="product"]', el => ({
+      name: el.children[0].innerText,
+      description: el.children[1].innerText,
+      price: el.children[2].innerText,
+      img: el.children[3].src,
+    })),
 });
 
 let driver;
@@ -193,6 +209,19 @@ describe('React application', () => {
       await new Promise(resolve => setTimeout(resolve, 300));
       const products = await driver.getProducts();
       expect(products[products.length - 1]).toEqual(productDetails);
+    });
+  });
+
+  describe('Product Page', () => {
+    it('should see product', async () => {
+      await driver.fetchProducts();
+      await driver.navigateHomepage();
+      await new Promise(resolve => setTimeout(resolve, 300));
+      await driver.clickFirstProduct();
+      await new Promise(resolve => setTimeout(resolve, 300));
+      driver.takeScreenshot();
+      const product = toHtmlVisibleProduct(mockedProductsList[0]);
+      expect(await driver.getProduct()).toEqual(product);
     });
   });
 });
