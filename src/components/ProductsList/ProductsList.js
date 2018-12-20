@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from '@reach/router';
+import { withExperiments } from 'wix-experiments-react';
 
 class ProductsList extends React.Component {
   static propTypes = {};
@@ -23,9 +24,13 @@ class ProductsList extends React.Component {
 
   render() {
     const { productsList } = this.state;
+    const { experiments } = this.props;
+    const addProductEnabled = experiments.enabled(
+      'specs.crash-course.IsAddButtonEnabled',
+    );
     return (
       <div data-hook="products-list">
-        <h1>All Products List</h1>
+        <h2>All Products List</h2>
         <table>
           <thead>
             <tr>
@@ -47,8 +52,14 @@ class ProductsList extends React.Component {
               ))}
           </tbody>
         </table>
+
+        {addProductEnabled && (
+          <Link to="new" data-hook="add-product-link">
+            Add product
+          </Link>
+        )}
       </div>
     );
   }
 }
-export default ProductsList;
+export default withExperiments(ProductsList);

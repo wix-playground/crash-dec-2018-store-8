@@ -3,8 +3,22 @@ import { translate } from 'react-i18next';
 import s from './App.scss';
 import PropTypes from 'prop-types';
 import ProductsList from '../ProductsList';
-import { Link } from '@reach/router';
-import {withExperiments} from 'wix-experiments-react';
+import { Router } from '@reach/router';
+import AddProduct from '../AddProduct';
+import Product from '../Product';
+
+const tempProduct = {
+  description: 'some description',
+  img: 'diHZhfxwDg',
+  name: 'Product 1',
+  price: '22',
+};
+
+const HomePage = () => <ProductsList />;
+const ProductPage = props => (
+  <Product productId={props.name} product={tempProduct} />
+);
+const AddProductPage = () => <AddProduct />;
 
 // TODO move to util
 function compose(...functions) {
@@ -25,16 +39,19 @@ class App extends React.Component {
   };
 
   render() {
-    const {t, experiments } = this.props;
-    const addProductEnabled = experiments.enabled('specs.crash-course.IsAddButtonEnabled');
+    const { t } = this.props;
+
     return (
       <div className={s.root}>
-        <h2>Awesome store</h2>
-        <ProductsList />
-        {addProductEnabled && <Link to="new" data-hook='add-product-link'>Add product</Link>}
+        <h1>Awesome team 8 store</h1>
+        <Router basepath="/crash-store-8">
+          <HomePage path="/" />
+          <ProductPage path="/product/:name" />
+          <AddProductPage path="/new" />
+        </Router>
       </div>
     );
   }
 }
 
-export default withExperiments(translate()(App));
+export default translate()(App);

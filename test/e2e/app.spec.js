@@ -34,7 +34,7 @@ const appDriver = page => ({
   navigateAddProductPage: () => page.goto(app.getUrl('/crash-store-8/new')),
   getProductsList: () => page.$('[data-hook="products-list"]'),
   getProductsListTitle: () =>
-    page.$eval('[data-hook="products-list"] h1', el => el.textContent),
+    page.$eval('[data-hook="products-list"] h2', el => el.textContent),
   getProducts: () =>
     page.$$eval('[data-hook="products-list"] tbody tr', e =>
       Array.from(e).map(el => ({
@@ -164,7 +164,7 @@ describe('React application', () => {
     await driver.fetchProducts();
     await driver.navigateHomepage();
     await new Promise(res => setTimeout(res, 300));
-// add eventually maybe
+    // add eventually maybe
     expect(await driver.getProducts()).toHaveLength(mockedProductsList.length);
   });
 
@@ -193,7 +193,9 @@ describe('React application', () => {
       await driver.fillProductDetails({ name: 'bla' });
       await driver.cancelAddProduct();
       await new Promise(resolve => setTimeout(resolve, 300));
-      expect(await page.$eval('h2', e => e.innerText)).toEqual('Awesome store');
+      expect(await page.$eval('h2', e => e.innerText)).toEqual(
+        'All Products List',
+      );
     });
 
     it('should add product', async () => {
@@ -221,7 +223,6 @@ describe('React application', () => {
       await new Promise(resolve => setTimeout(resolve, 300));
       await driver.clickFirstProduct();
       await new Promise(resolve => setTimeout(resolve, 300));
-      driver.takeScreenshot();
       const product = toHtmlVisibleProduct(mockedProductsList[0]);
       expect(await driver.getProduct()).toEqual(product);
     });
@@ -232,7 +233,7 @@ describe('React application', () => {
 
     it('should render add product button', async () => {
       petriServer.onConductAllInScope(() => ({
-        "specs.crash-course.IsAddButtonEnabled": "true"
+        'specs.crash-course.IsAddButtonEnabled': 'true',
       }));
       await driver.fetchProducts();
       await driver.navigateHomepage();
@@ -241,7 +242,7 @@ describe('React application', () => {
 
     it('should not  render add product button', async () => {
       petriServer.onConductAllInScope(() => ({
-        "specs.crash-course.IsAddButtonEnabled": "false"
+        'specs.crash-course.IsAddButtonEnabled': 'false',
       }));
       await driver.fetchProducts();
       await driver.navigateHomepage();
