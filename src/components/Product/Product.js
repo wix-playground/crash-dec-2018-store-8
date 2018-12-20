@@ -14,7 +14,6 @@ class Product extends React.Component {
   render() {
     const { product } = this.state;
     const { productId } = this.props;
-    console.log(this.state);
 
     return product ? (
       <div data-hook="product">

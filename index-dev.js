@@ -9,16 +9,16 @@ const port = parseInt(process.env.PORT);
 const appConfDir = './target/dev/configs';
 const products = [
   {
-    name: 'Name',
-    description: 'Description',
+    name: 'Product1',
+    description: 'this is a description',
     price: '22',
-    img: 'sss',
+    img: 'http://www.gendaiya.co.jp/s_fgeta/dai/komachi-getaM-v500.jpg',
   },
   {
-    name: 'Product 1',
-    description: 'some description',
-    price: 'GVExxnpJBs',
-    img: 'diHZhfxwDg',
+    name: 'Product 2',
+    description: 'some other description',
+    price: '124',
+    img: 'http://www.gendaiya.co.jp/s_fgeta/dai/komachi-getaM-bb1-v500.jpg',
   },
 ];
 

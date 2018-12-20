@@ -1,14 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Link } from '@reach/router';
+import { Link, navigate } from '@reach/router';
 import { withExperiments } from 'wix-experiments-react';
+import Table from 'wix-style-react/Table';
+import Button from 'wix-style-react/Button';
 
 class ProductsList extends React.Component {
-  static propTypes = {};
-
   state = {
-    productsList: null,
+    productsList: [],
   };
 
   componentDidMount() {
@@ -22,6 +21,14 @@ class ProductsList extends React.Component {
     });
   };
 
+  handleProductClicked = product => {
+    navigate(`/crash-store-8/product/${product.name}`);
+  };
+
+  handleAddProductClicked() {
+    navigate(`/crash-store-8/new`);
+  }
+
   render() {
     const { productsList } = this.state;
     const { experiments } = this.props;
@@ -29,35 +36,38 @@ class ProductsList extends React.Component {
       'specs.crash-course.IsAddButtonEnabled',
     );
     return (
-      <div data-hook="products-list">
+      <div data-hook="products-list-container">
         <h2>All Products List</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            {productsList &&
-              productsList.map(productItem => (
-                <tr key={productItem.name}>
-                  <td>
-                    <Link to={`product/${productItem.name}`}>
-                      {productItem.name}
-                    </Link>
-                  </td>
-                  <td>{productItem.description}</td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-
         {addProductEnabled && (
-          <Link to="new" data-hook="add-product-link">
+          <Button
+            dataHook="add-product-link"
+            onClick={this.handleAddProductClicked}
+          >
             Add product
-          </Link>
+          </Button>
         )}
+        <Table
+          dataHook="products-list"
+          sortable
+          onRowClick={this.handleProductClicked}
+          data={productsList}
+          columns={[
+            {
+              title: 'Name',
+              render: row => <span>{row.name}</span>,
+              width: '50%',
+              minWidth: '150px',
+              align: 'start',
+            },
+            {
+              title: 'Description',
+              render: row => <span>{row.description}</span>,
+              width: '50%',
+              minWidth: '150px',
+              align: 'start',
+            },
+          ]}
+        />
       </div>
     );
   }

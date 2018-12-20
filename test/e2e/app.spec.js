@@ -32,11 +32,14 @@ const toHtmlVisibleProduct = ({ name, description, price, img }) => {
 const appDriver = page => ({
   navigateHomepage: () => page.goto(app.getUrl('/crash-store-8/')),
   navigateAddProductPage: () => page.goto(app.getUrl('/crash-store-8/new')),
-  getProductsList: () => page.$('[data-hook="products-list"]'),
+  getProductsList: () => page.$('[data-hook="products-list-container"]'),
   getProductsListTitle: () =>
-    page.$eval('[data-hook="products-list"] h2', el => el.textContent),
+    page.$eval(
+      '[data-hook="products-list-container"] h2',
+      el => el.textContent,
+    ),
   getProducts: () =>
-    page.$$eval('[data-hook="products-list"] tbody tr', e =>
+    page.$$eval('[data-hook="products-list-container"] tbody tr', e =>
       Array.from(e).map(el => ({
         name: el.children[0].innerText,
         description: el.children[1].innerText,
@@ -108,11 +111,15 @@ const appDriver = page => ({
       );
   },
   getNavigateAddProductLink: async () => {
-    return await page.$('[data-hook="add-product-link"]');
+    const testkit = await buttonTestkitFactory({
+      dataHook: 'add-product-link',
+      page,
+    });
+    return testkit.element();
   },
   takeScreenshot: () => page.screenshot({ path: './test.png' }),
   clickFirstProduct: () =>
-    page.click('[data-hook="products-list"] tbody tr td a'),
+    page.click('[data-hook="products-list-container"] tbody tr'),
   getProduct: () =>
     page.$eval('[data-hook="product"]', el => ({
       name: el.children[0].innerText,
