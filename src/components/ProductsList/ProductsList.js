@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Link, navigate } from '@reach/router';
+import { navigate } from '@reach/router';
 import { withExperiments } from 'wix-experiments-react';
 import Table from 'wix-style-react/Table';
 import Button from 'wix-style-react/Button';

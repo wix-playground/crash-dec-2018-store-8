@@ -6,6 +6,7 @@ import ProductsList from '../ProductsList';
 import { Router } from '@reach/router';
 import AddProduct from '../AddProduct';
 import Product from '../Product';
+import Heading from 'wix-style-react/Heading';
 
 const HomePage = () => <ProductsList />;
 const ProductPage = ({ name }) => <Product productId={name} />;
@@ -22,7 +23,7 @@ class App extends React.Component {
 
     return (
       <div className={s.root}>
-        <h1>Awesome team 8 store</h1>
+        <Heading appearance="H1">Awesome team 8 store</Heading>
         <Router basepath="/crash-store-8">
           <HomePage path="/" />
           <ProductPage path="/product/:name" />

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from '@reach/router';
 import axios from 'axios';
+import Heading from 'wix-style-react/Heading';
 
 class Product extends React.Component {
   state = {};
@@ -17,16 +18,20 @@ class Product extends React.Component {
 
     return product ? (
       <div data-hook="product">
-        <h1>
+        <Heading appearance="H2">
           Product: {product.name} - {productId}
-        </h1>
-        <div>{product.description}</div>
-        <div>{product.price}₪</div>
-        <img src={product.img} alt={product.img} />
-        <br />
+        </Heading>
+        <Heading appearance="H3">{product.description}</Heading>
+        <Heading appearance="H3">{product.price}₪</Heading>
+        <div>
+          <img src={product.img} alt={product.img} />
+        </div>
+
         <Link to="../../">Back</Link>
       </div>
-    ) : null;
+    ) : (
+      <Link to="../../">Back</Link>
+    );
   }
 }
 export default Product;
