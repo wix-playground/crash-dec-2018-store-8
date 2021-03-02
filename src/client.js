@@ -5,7 +5,7 @@ import axios from 'axios';
 import { wixAxiosConfig } from '@wix/wix-axios-config';
 import i18n from './i18n';
 import App from './components/App';
-import { ExperimentsProvider } from 'wix-experiments-react';
+import { ExperimentsProvider } from '@wix/wix-experiments-react';
 
 const baseURL = window.__BASEURL__;
 const locale = window.__LOCALE__;

@@ -5,7 +5,7 @@ import App from './App';
 import i18n from '../../../test/helpers/i18n.mock';
 import translation from '../../locales/messages_en';
 import i18next from 'i18next';
-import { ExperimentsProvider } from 'wix-experiments-react';
+import { ExperimentsProvider } from '@wix/wix-experiments-react';
 
 
 // jest.mock('../../apiServices');
