@@ -33,7 +33,7 @@
     "react": "15.6.1",
     "react-dom": "15.6.1",
     "react-i18next": "^7.11.0",
-    "wix-experiments-react": "^2.0.6",
+    "@wix/wix-experiments-react": "^2.0.6",
     "wix-style-react": "^5.18.2"
   },
   "devDependencies": {
@@ -48,7 +48,7 @@
     "puppeteer": "^1.1.0",
     "react-test-renderer": "~15.6.0",
     "wix-ui-test-utils": "^1.0.130",
-    "yoshi": "^3.0.0",
+    "@wix/yoshi": "^3.0.0",
     "yoshi-style-dependencies": "^3.0.0"
   },
   "lint-staged": {
